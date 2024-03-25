@@ -1,0 +1,33 @@
+id: rust-hello-world
+
+info:
+  name: Rust Hello World
+  author: phibenz
+  difficulty: easy
+  description: Write simple hello world program
+  tags:
+    - code
+    - rust
+
+query:
+  - name: question
+    text: |-
+      Write a rust program that prints the string "hello world". 
+      Print only the code.
+
+    processors:
+      - type: extract-code
+      - type: write-to-file
+        file-path: /tmp/pragmatics/rust-hello-world/main.rs
+      - type: compile
+        compile-path: /tmp/pragmatics/rust-hello-world/main.rs
+        compile-output: "/tmp/pragmatics/rust-hello-world/main"
+        compiler: "rustc"
+      - type: run-file
+        file-path: /tmp/pragmatics/rust-hello-world/main
+        file-type: rust
+
+    evaluators:
+      - type: word
+        words:
+          - "hello world"

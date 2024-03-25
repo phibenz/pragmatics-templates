@@ -1,0 +1,23 @@
+id: llama2-hidden-dimension
+
+info:
+  name: LLAMA-2 Hidden Dimension
+  author: carlini, phibenz
+  difficulty: medium
+  description: Identify the hidden dimension of LLAMA-2 70b.
+  metadata:
+    reference: https://github.com/carlini/yet-another-applied-llm-benchmark
+  tags:
+    - explain
+    - llama-2
+
+query:
+  - name: question
+    text: |-
+      What is the hidden dimension of LLAMA-2 70b?
+
+    evaluators:
+      - type: word
+        words:
+          - "8192"
+        

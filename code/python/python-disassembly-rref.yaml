@@ -1,0 +1,276 @@
+id: python-disassembly-rref
+
+info:
+  name: Python Disassembly 
+  author: carlini, phibenz
+  difficulty: hard
+  description: Disassemble Python disassembly and create a rref function. 
+  metadata:
+    reference: https://github.com/carlini/yet-another-applied-llm-benchmark
+  tags:
+    - code
+    - disassembly
+    - python
+
+query:
+  - name: question
+    text: |-
+      Disassemble the following python into a function called foo:
+
+      ```
+        6           0 LOAD_GLOBAL              0 (len)
+                    2 LOAD_DEREF               1 (matrix)
+                    4 CALL_FUNCTION            1
+                    6 STORE_FAST               1 (numRows)
+
+        7           8 LOAD_GLOBAL              0 (len)
+                  10 LOAD_DEREF               1 (matrix)
+                  12 LOAD_CONST               1 (0)
+                  14 BINARY_SUBSCR
+                  16 CALL_FUNCTION            1
+                  18 STORE_FAST               2 (numCols)
+
+        8          20 LOAD_CONST               1 (0)
+                  22 STORE_FAST               3 (nonzeroRow)
+
+      11          24 LOAD_CONST               2 ((0, 0))
+                  26 UNPACK_SEQUENCE          2
+                  28 STORE_FAST               4 (i)
+                  30 STORE_DEREF              0 (j)
+
+      13     >>   32 NOP
+
+      16     >>   34 LOAD_FAST                4 (i)
+                  36 LOAD_FAST                1 (numRows)
+                  38 COMPARE_OP               5 (>=)
+                  40 POP_JUMP_IF_TRUE        25 (to 50)
+                  42 LOAD_DEREF               0 (j)
+                  44 LOAD_FAST                2 (numCols)
+                  46 COMPARE_OP               5 (>=)
+                  48 POP_JUMP_IF_FALSE       26 (to 52)
+
+      17     >>   50 JUMP_FORWARD           130 (to 312)
+
+      22     >>   52 LOAD_DEREF               1 (matrix)
+                  54 LOAD_FAST                4 (i)
+                  56 BINARY_SUBSCR
+                  58 LOAD_DEREF               0 (j)
+                  60 BINARY_SUBSCR
+                  62 LOAD_CONST               1 (0)
+                  64 COMPARE_OP               2 (==)
+                  66 POP_JUMP_IF_FALSE       64 (to 128)
+
+      23          68 LOAD_FAST                4 (i)
+                  70 STORE_FAST               3 (nonzeroRow)
+
+      24          72 LOAD_FAST                3 (nonzeroRow)
+                  74 LOAD_FAST                1 (numRows)
+                  76 COMPARE_OP               0 (<)
+                  78 POP_JUMP_IF_FALSE       64 (to 128)
+                  80 LOAD_DEREF               1 (matrix)
+                  82 LOAD_FAST                3 (nonzeroRow)
+                  84 BINARY_SUBSCR
+                  86 LOAD_DEREF               0 (j)
+                  88 BINARY_SUBSCR
+                  90 LOAD_CONST               1 (0)
+                  92 COMPARE_OP               2 (==)
+                  94 POP_JUMP_IF_FALSE       64 (to 128)
+
+      25     >>   96 LOAD_FAST                3 (nonzeroRow)
+                  98 LOAD_CONST               4 (1)
+                  100 INPLACE_ADD
+                  102 STORE_FAST               3 (nonzeroRow)
+
+      24         104 LOAD_FAST                3 (nonzeroRow)
+                  106 LOAD_FAST                1 (numRows)
+                  108 COMPARE_OP               0 (<)
+                  110 POP_JUMP_IF_FALSE       64 (to 128)
+                  112 LOAD_DEREF               1 (matrix)
+                  114 LOAD_FAST                3 (nonzeroRow)
+                  116 BINARY_SUBSCR
+                  118 LOAD_DEREF               0 (j)
+                  120 BINARY_SUBSCR
+                  122 LOAD_CONST               1 (0)
+                  124 COMPARE_OP               2 (==)
+                  126 POP_JUMP_IF_TRUE        48 (to 96)
+
+      27     >>  128 LOAD_FAST                3 (nonzeroRow)
+                  130 LOAD_FAST                1 (numRows)
+                  132 COMPARE_OP               2 (==)
+                  134 POP_JUMP_IF_FALSE       73 (to 146)
+
+      28         136 LOAD_DEREF               0 (j)
+                  138 LOAD_CONST               4 (1)
+                  140 INPLACE_ADD
+                  142 STORE_DEREF              0 (j)
+
+      30         144 JUMP_ABSOLUTE           16 (to 32)
+
+      33     >>  146 LOAD_DEREF               1 (matrix)
+                  148 LOAD_FAST                4 (i)
+                  150 BINARY_SUBSCR
+                  152 STORE_FAST               5 (temp)
+
+      34         154 LOAD_DEREF               1 (matrix)
+                  156 LOAD_FAST                3 (nonzeroRow)
+                  158 BINARY_SUBSCR
+                  160 LOAD_DEREF               1 (matrix)
+                  162 LOAD_FAST                4 (i)
+                  164 STORE_SUBSCR
+
+      35         166 LOAD_FAST                5 (temp)
+                  168 LOAD_DEREF               1 (matrix)
+                  170 LOAD_FAST                3 (nonzeroRow)
+                  172 STORE_SUBSCR
+
+      37         174 LOAD_DEREF               1 (matrix)
+                  176 LOAD_FAST                4 (i)
+                  178 BINARY_SUBSCR
+                  180 LOAD_DEREF               0 (j)
+                  182 BINARY_SUBSCR
+                  184 STORE_DEREF              3 (pivot)
+
+      42         186 LOAD_CLOSURE             3 (pivot)
+                  188 BUILD_TUPLE              1
+                  190 LOAD_CONST               5 (<code object <listcomp> at 0x102cf3260, file "/tmp/foo.py", line 42>)
+                  192 LOAD_CONST               6 ('rref.<locals>.<listcomp>')
+                  194 MAKE_FUNCTION            8 (closure)
+                  196 LOAD_DEREF               1 (matrix)
+                  198 LOAD_FAST                4 (i)
+                  200 BINARY_SUBSCR
+                  202 GET_ITER
+                  204 CALL_FUNCTION            1
+                  206 LOAD_DEREF               1 (matrix)
+                  208 LOAD_FAST                4 (i)
+                  210 STORE_SUBSCR
+
+      44         212 LOAD_GLOBAL              1 (range)
+                  214 LOAD_CONST               1 (0)
+                  216 LOAD_FAST                1 (numRows)
+                  218 CALL_FUNCTION            2
+                  220 GET_ITER
+              >>  222 FOR_ITER                35 (to 294)
+                  224 STORE_DEREF              2 (otherRow)
+
+      45         226 LOAD_DEREF               2 (otherRow)
+                  228 LOAD_FAST                4 (i)
+                  230 COMPARE_OP               2 (==)
+                  232 POP_JUMP_IF_FALSE      118 (to 236)
+
+      46         234 JUMP_ABSOLUTE          111 (to 222)
+
+      47     >>  236 LOAD_DEREF               1 (matrix)
+                  238 LOAD_DEREF               2 (otherRow)
+                  240 BINARY_SUBSCR
+                  242 LOAD_DEREF               0 (j)
+                  244 BINARY_SUBSCR
+                  246 LOAD_CONST               1 (0)
+                  248 COMPARE_OP               3 (!=)
+                  250 POP_JUMP_IF_FALSE      146 (to 292)
+
+      48         252 LOAD_CLOSURE             0 (j)
+                  254 LOAD_CLOSURE             1 (matrix)
+                  256 LOAD_CLOSURE             2 (otherRow)
+                  258 BUILD_TUPLE              3
+                  260 LOAD_CONST               7 (<code object <listcomp> at 0x102cf3c00, file "/tmp/foo.py", line 48>)
+                  262 LOAD_CONST               6 ('rref.<locals>.<listcomp>')
+                  264 MAKE_FUNCTION            8 (closure)
+
+      50         266 LOAD_GLOBAL              2 (zip)
+                  268 LOAD_DEREF               1 (matrix)
+                  270 LOAD_FAST                4 (i)
+                  272 BINARY_SUBSCR
+                  274 LOAD_DEREF               1 (matrix)
+                  276 LOAD_DEREF               2 (otherRow)
+                  278 BINARY_SUBSCR
+                  280 CALL_FUNCTION            2
+
+      48         282 GET_ITER
+                  284 CALL_FUNCTION            1
+                  286 LOAD_DEREF               1 (matrix)
+                  288 LOAD_DEREF               2 (otherRow)
+                  290 STORE_SUBSCR
+              >>  292 JUMP_ABSOLUTE          111 (to 222)
+
+      53     >>  294 LOAD_FAST                4 (i)
+                  296 LOAD_CONST               4 (1)
+                  298 INPLACE_ADD
+                  300 STORE_FAST               4 (i)
+
+      54         302 LOAD_DEREF               0 (j)
+                  304 LOAD_CONST               4 (1)
+                  306 INPLACE_ADD
+                  308 STORE_DEREF              0 (j)
+
+      13         310 JUMP_ABSOLUTE           17 (to 34)
+
+      57     >>  312 LOAD_CONST               1 (0)
+                  314 STORE_FAST               6 (matrix_sum)
+
+      58         316 LOAD_DEREF               1 (matrix)
+                  318 GET_ITER
+              >>  320 FOR_ITER                11 (to 344)
+                  322 STORE_FAST               7 (row)
+
+      59         324 LOAD_FAST                7 (row)
+                  326 GET_ITER
+              >>  328 FOR_ITER                 6 (to 342)
+                  330 STORE_FAST               8 (element)
+
+      60         332 LOAD_FAST                6 (matrix_sum)
+                  334 LOAD_FAST                8 (element)
+                  336 INPLACE_ADD
+                  338 STORE_FAST               6 (matrix_sum)
+                  340 JUMP_ABSOLUTE          164 (to 328)
+
+      59     >>  342 JUMP_ABSOLUTE          160 (to 320)
+
+      61     >>  344 LOAD_FAST                6 (matrix_sum)
+                  346 RETURN_VALUE
+
+      Disassembly of <code object <listcomp> at 0x102cf3260, file "/tmp/foo.py", line 42>:
+      42           0 BUILD_LIST               0
+                    2 LOAD_FAST                0 (.0)
+              >>    4 FOR_ITER                 6 (to 18)
+                    6 STORE_FAST               1 (x)
+                    8 LOAD_FAST                1 (x)
+                  10 LOAD_DEREF               0 (pivot)
+                  12 BINARY_TRUE_DIVIDE
+                  14 LIST_APPEND              2
+                  16 JUMP_ABSOLUTE            2 (to 4)
+              >>   18 RETURN_VALUE
+
+      Disassembly of <code object <listcomp> at 0x102cf3c00, file "/tmp/foo.py", line 48>:
+      48           0 BUILD_LIST               0
+                    2 LOAD_FAST                0 (.0)
+              >>    4 FOR_ITER                14 (to 34)
+
+      50           6 UNPACK_SEQUENCE          2
+                    8 STORE_FAST               1 (x)
+                  10 STORE_FAST               2 (y)
+
+      49          12 LOAD_FAST                2 (y)
+                  14 LOAD_DEREF               1 (matrix)
+                  16 LOAD_DEREF               2 (otherRow)
+                  18 BINARY_SUBSCR
+                  20 LOAD_DEREF               0 (j)
+                  22 BINARY_SUBSCR
+                  24 LOAD_FAST                1 (x)
+                  26 BINARY_MULTIPLY
+                  28 BINARY_SUBTRACT
+
+      48          30 LIST_APPEND              2
+                  32 JUMP_ABSOLUTE            2 (to 4)
+              >>   34 RETURN_VALUE
+      ```
+    processors:
+      - type: extract-code
+      - type: python-compile
+        fn-name: foo
+    
+    evaluators:
+      - type: python-fn
+        fn-name: foo
+        args: 
+          - "eval:[[-2, -2, -4, 4], [-2, 1, -4, -1], [4, 10, -8, 14], [-2, 7, 4, 6]]"
+        output: "-4.7272727272727275"

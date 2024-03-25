@@ -1,0 +1,63 @@
+id: python-string-alterations
+
+info:
+  name: Python String Alterations
+  author: carlini, phibenz
+  difficulty: medium
+  description: Write a function that returns all possible permutations of a string
+  metadata:
+    reference: https://github.com/carlini/yet-another-applied-llm-benchmark
+  tags:
+    - code
+    - python
+setup:
+  - type: write-to-file
+    file-path: /tmp/pragmatics/python-string-alterations/test_string_alterations.py
+    code: |-
+      from alter import alter
+      out = set(alter("abcd"))
+      print(out)
+
+query:
+  - name: question
+    text: |-
+      Write me a python function called `alter` that, given a string x, returns all possible alternate strings y'. 
+      Each y' should be a permutation of x.
+
+    processors:
+      - type: extract-code
+      - type: write-to-file
+        file-path: /tmp/pragmatics/python-string-alterations/alter.py
+        file-type: python
+      - type: run-file
+        file-path: /tmp/pragmatics/python-string-alterations/test_string_alterations.py
+        file-type: python
+
+    evaluators:
+      - type: word
+        words:
+          - "abcd"
+          - "bcda"
+          - "cdab"
+          - "dabc"
+          - "abdc"
+          - "acbd"
+          - "acdb"
+          - "adbc"
+          - "adcb"
+          - "bacd"
+          - "badc"
+          - "bcad"
+          - "bdac"
+          - "bdca"
+          - "cabd"
+          - "cadb"
+          - "cbad"
+          - "cbda"
+          - "cdba"
+          - "dacb"
+          - "dbac"
+          - "dbca"
+          - "dcab"
+          - "dcba"
+

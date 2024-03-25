@@ -1,0 +1,39 @@
+id: xml-to-json
+
+info:
+  name: XML to JSON
+  author: carlini, phibenz
+  difficulty: easy
+  description: Transform xml to json
+  metadata:
+    reference: https://github.com/carlini/yet-another-applied-llm-benchmark
+  tags:
+    - data
+    - xml
+    - json
+
+query:
+  - name: question
+    text: |-
+      Transform the following XML to JSON. Give me only the json, nothing else.
+      
+      ```
+      <menu id="file" value="File">
+        <popup>
+          <menuitem value="New" onclick="CreateNewDoc()" />
+          <menuitem value="Open" onclick="OpenDoc()" />
+          <menuitem value="Close" onclick="CloseDoc()" />
+        </popup>
+      </menu>
+      ```
+
+    processors:
+      - type: extract-code
+      - type: json
+
+    evaluators:
+      - type: word
+        words:
+          - "{'value': 'New', 'onclick': 'CreateNewDoc()'}"
+          - "{'value': 'Open', 'onclick': 'OpenDoc()'}"
+          - "{'value': 'Close', 'onclick': 'CloseDoc()'}"

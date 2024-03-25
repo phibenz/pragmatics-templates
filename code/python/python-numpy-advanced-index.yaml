@@ -1,0 +1,40 @@
+id: python-numpy-advanced-index
+
+info:
+  name: Python Numpy Advanced Index
+  author: carlini, phibenz
+  difficulty: medium
+  description: Explain advanced indexing in numpy
+  metadata:
+    reference: https://github.com/carlini/yet-another-applied-llm-benchmark
+  tags:
+    - code
+    - python
+
+query:
+  - name: question
+    text: |-
+      Consider this program
+
+      ```python
+      import numpy as np
+
+      array = np.zeros((10, 20, 30))
+      idxs = [1, 2, 3]
+
+      print("The first array shape is", array[0][:, idxs].shape)
+      print("The second array shape is", array[0, :, idxs].shape)
+      ```
+
+      Tell me what this program will print, and then explain why the two print statements don't print the same thing.
+
+    evaluators:
+      - type: word
+        words:
+          - "(3, 20)"
+          - "(20, 3)"
+          - "indexing"
+
+
+
+

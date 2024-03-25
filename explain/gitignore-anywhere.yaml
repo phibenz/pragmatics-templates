@@ -1,0 +1,23 @@
+id: gitignore-anywhere
+
+info:
+  name: Gitignore Anywhere
+  author: carlini, phibenz
+  difficulty: easy
+  description: Ignore any file called .KEYFILE anywhere under a directory foo, which itself is anywhere
+  metadata:
+    reference: https://github.com/carlini/yet-another-applied-llm-benchmark
+  tags:
+    - explain
+    - git
+    - gitignore
+
+query:
+  - name: question
+    text: |-
+      gitignore any file called .KEYFILE anywhere under a directory foo, which itself is anywhere
+
+    evaluators:
+      - type: word
+        words:
+          - "**/foo/**/.KEYFILE"

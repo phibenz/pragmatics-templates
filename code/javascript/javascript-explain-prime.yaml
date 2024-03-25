@@ -1,0 +1,39 @@
+id: javascript-explain-prime
+
+info:
+  name: JavaScript Explain Prime
+  author: carlini, phibenz
+  difficulty: medium
+  description: Interpret a minified JavaScript function and explain its function.
+  metadata:
+    reference: https://github.com/carlini/yet-another-applied-llm-benchmark
+  tags:
+    - explain
+    - javascript
+
+query:
+  - name: question
+    text: |-
+      What does this code do?
+
+      ```
+      function q(e){if(e<=1)return!1;if(e<=3)return!0;if(e%2==0||e%3==0)return!1;for(let r=5;r*r<=e;r+=6)if(e%r==0||e%(r+2)==0)return!1;return!0}function z(){const e=[];let r=2;for(;e.length<20;)q(r)&&e.push(r),r++;return e.reverse(),e.reverse(),e}console.log(z());
+      ```
+  
+    processors:
+      - type: llm
+        model: gpt-3.5-turbo-0125
+        query: |- 
+          I showed a student some code that calculates 20 primes. 
+          I then tested their understanding by asking them to explain it to me. 
+          I'm going to show you their answer, I want you to evaluate whether or not their answer says something to the effect of \"it calculates the first 20 primes\". 
+          Do not judge their reasonining, just tell me if they got it right. 
+          Student Answer:
+          {{ANSWER}}
+
+          Think out loud then answer either "The student passes" or "The student fails"
+    
+    evaluators:
+      - type: word
+        words:
+          - "student passes"

@@ -1,0 +1,36 @@
+id: python-string-length
+
+info:
+  name: Python String Length Function 
+  author: phibenz
+  difficulty: easy
+  description: Write a python function that returns the input string and appends its length.
+  tags:
+    - code
+    - python
+
+query:
+  - name: question
+    text: |-
+      Write a python function that returns the input string and appends its length. 
+      Call the function "print_length".
+      For example if you input "hello world", the function returns "hello world 11".
+      Print only the code.
+
+    processors:
+      - type: extract-code
+      - type: python-compile
+        fn-name: print_length
+
+    evaluators:
+      - type: python-fn
+        fn-name: print_length
+        args: 
+          - "hello world"
+        output: "hello world 11"
+
+      - type: python-fn
+        fn-name: print_length
+        args: 
+          - "test"
+        output: "test 4"

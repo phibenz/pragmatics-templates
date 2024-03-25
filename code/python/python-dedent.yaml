@@ -1,0 +1,53 @@
+id: python-dedent
+
+info:
+  name: Python Dedent
+  author: phibenz
+  difficulty: easy
+  description: Write a python function that de-dents a string.
+  metadata:
+    blog: https://phibenz.github.io
+    reference: https://github.com/carlini/yet-another-applied-llm-benchmark
+    arxiv: https://arxiv.org/abs/2106.04561
+  tags:
+    - code
+    - python
+
+query:
+  - name: question
+    text: |-
+      Write a python function `dedent(str)` that takes as input a string of python code and de-dents it maximally. 
+      Lines that are entirely blank don't count.
+
+    processors:
+      - type: extract-code
+      - type: write-to-file
+        file-path: /tmp/python-dedent.py
+        file-type: python
+      - type: python-compile
+        fn-name: dedent
+
+    evaluators:
+      - type: python-fn
+        fn-name: dedent
+        args:
+          |2- 
+          # dedent me
+          print("hello")
+          print("world")
+
+          if True:
+                  print("true")
+          else:
+                print("false")
+
+        output:
+          |2-
+          # dedent me
+          print("hello")
+          print("world")
+
+          if True:
+            print("true")
+          else:
+            print("false")

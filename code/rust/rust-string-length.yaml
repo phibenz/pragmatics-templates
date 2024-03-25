@@ -1,0 +1,44 @@
+id: rust-string-length
+
+info:
+  name: Rust String Length Function 
+  author: phibenz
+  difficulty: easy
+  description: Write a rust program that returns the input string and appends its length.
+  tags:
+    - code
+    - rust
+
+query:
+  - name: question
+    text: |-
+      Write a rust program that returns the input string and appends its length. 
+      The program should take the input string from the command line and print the result.
+      For example if you input "hello world", the function returns "hello world 11".
+      Print only the code.
+
+    processors:
+      - type: extract-code
+      - type: write-to-file
+        file-path: /tmp/pragmatics/rust-string-length/main.rs
+        file-type: rust
+      - type: compile
+        compile-path: /tmp/pragmatics/rust-string-length/main.rs
+        compile-output: "/tmp/pragmatics/rust-string-length/main"
+        compiler: "rustc"
+
+    evaluators:
+      - type: run-file
+        file-path: /tmp/pragmatics/rust-string-length/main
+        file-type: rust
+        file-args:
+          - "hello world"
+        output: "hello world 11"
+      
+      - type: run-file
+        file-path: /tmp/pragmatics/rust-string-length/main
+        file-type: rust
+        file-args:
+          - "pragmatics is awesome"
+        output: "pragmatics is awesome 21"
+

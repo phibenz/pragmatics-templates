@@ -1,0 +1,24 @@
+id: javascript-save-expired
+
+info:
+  name: Javascript Save Expired
+  author: carlini, phibenz
+  difficulty: easy
+  description: Save expired webpage
+  metadata:
+    reference: https://github.com/carlini/yet-another-applied-llm-benchmark
+  tags:
+    - code
+    - javascript
+    - html
+
+query:
+  - name: question
+    text: |-
+      I have a webpage that's open in a chrome browser but the page no longer exists. 
+      What javascript should I type in the console to get a copy of the entire page html?
+
+    evaluators:
+      - type: word
+        words:
+          - "outerHTML"

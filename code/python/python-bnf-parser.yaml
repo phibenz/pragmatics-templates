@@ -1,0 +1,49 @@
+id: python-bnf-parser
+
+info:
+  name: Python Hello World
+  author: carlini, phibenz
+  difficulty: hard
+  description: Write a Python function that evaluates a BNF-style grammar
+  metadata:
+    reference: https://github.com/carlini/yet-another-applied-llm-benchmark
+  tags:
+    - code
+    - python
+
+query:
+  - name: question
+    text: |-
+      Given this BNF-style grammar write a Python function `evaluate(str)` that evaluates the expression
+
+      ```
+      <expression> ::= <term> | <expression> '+' <term> | <expression> '-' <term>
+
+      <term> ::= <factor> | <term> '*' <factor> | <term> '/' <factor>
+
+      <factor> ::= <number> | '(' <expression> ')' | <prefix-op> <factor>
+
+      <prefix-op> ::= 'sin' | 'cos'
+
+      <number> ::= <digit> | <number> <digit>
+
+      <digit> ::= '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
+      ```
+
+      For example you can evaluate this
+      sin(3 + 2 * 4) - cos(15) = -0.240302
+
+    processors:
+      - type: extract-code
+      - type: write-to-file
+        file-path: /tmp/bnf_parser.py
+        file-type: python
+      - type: python-compile
+        fn-name: evaluate
+
+    evaluators:
+      - type: python-fn
+        fn-name: evaluate
+        args: 
+          - "sin(35+2*4)-cos(15)"
+        output: "-0.07209"

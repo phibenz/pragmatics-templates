@@ -1,0 +1,54 @@
+id: bash-renamer
+
+info:
+  name: Bash Renamer
+  author: carlini, phibenz
+  difficulty: medium
+  description: Write a bash script that renames files with a specific pattern.
+  metadata:
+    reference: https://github.com/carlini/yet-another-applied-llm-benchmark
+  tags:
+    - code
+    - bash
+
+setup:
+  - type: python-run
+    code: |-
+      import os
+      base_dir = "/tmp/pragmatics/bash-renamer"
+      os.makedirs(base_dir, exist_ok=True)
+
+      for i in range(10):
+        if i % 2 == 0:
+          with open(base_dir + "/merged_{}".format(i), "w") as f:
+            f.write("a"*i)
+        else:
+          with open(base_dir + "/{}".format(i), "w") as f:
+            f.write("a"*i)
+
+query:
+  - name: question
+    text: |-
+        Write a bash script to rename all files of the form "merged_*" to "finished_*". 
+        I want to call it by running bash rename.sh /path/to/files.
+
+    processors:
+      - type: extract-code
+      - type: write-to-file
+        file-path: /tmp/pragmatics/bash-renamer/rename.sh
+        file-type: bash
+      - type: run-file
+        file-path: /tmp/pragmatics/bash-renamer/rename.sh
+        file-args:
+          - "/tmp/pragmatics/bash-renamer/"
+        file-type: bash
+    
+    evaluators:
+      - type: isfile
+        file-paths:
+            - "/tmp/pragmatics/bash-renamer/finished_0"
+            - "/tmp/pragmatics/bash-renamer/finished_2"
+            - "/tmp/pragmatics/bash-renamer/finished_4"
+            - "/tmp/pragmatics/bash-renamer/finished_6"
+            - "/tmp/pragmatics/bash-renamer/finished_8"
+        condition: "and"

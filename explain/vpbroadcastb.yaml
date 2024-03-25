@@ -1,0 +1,31 @@
+id: vpbroadcastb
+
+info:
+  name: vpbroadcastb
+  author: carlini, phibenz
+  difficulty: easy
+  description: Explain what the vp broadcast instruction does.
+  metadata:
+    reference: https://github.com/carlini/yet-another-applied-llm-benchmark
+  tags:
+    - explain
+    - vpbroadcastb
+
+query:
+  - name: question
+    text: |-
+      What does the VPBROADCASTB instruction do?    
+    processors:
+      - type: llm
+        model: gpt-3.5-turbo-0125
+        query: |-
+          Below is a student's answer to a question about what a particular instruction does: 
+          {{ANSWER}}
+
+          Does the student's say something similar to "Load integer data from the source operand (the second operand) and broadcast to all elements of the destination operand (the first operand)."?
+          If the answer is correct say "The student passes" otherwise "The student fails".
+    
+    evaluators:
+      - type: word
+        words:
+          - "student passes"

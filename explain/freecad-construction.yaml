@@ -1,0 +1,25 @@
+id: free-cad-construction
+
+info:
+  name: FreeCAD Construction
+  author: carlini, phibenz
+  difficulty: easy
+  description: How to create a construction circle in FreeCAD
+  metadata:
+    reference: https://github.com/carlini/yet-another-applied-llm-benchmark
+  tags:
+    - explain
+    - freecad
+
+query:
+  - name: question
+    text: |-
+      In freecad I want to have a circle but only for reference not to actually be a circle but just so I can line up other lines to make a hexagon for example.
+      How do I do that?
+    
+    evaluators:
+      - type: word
+        condition: "or"
+        words:
+          - "construction geometry"
+          - "construction circle"

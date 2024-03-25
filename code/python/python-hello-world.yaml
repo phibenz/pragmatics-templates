@@ -1,0 +1,24 @@
+id: python-hello-world
+
+info:
+  name: Python Hello World
+  author: phibenz
+  difficulty: easy
+  description: Write simple hello world program
+  tags:
+    - code
+    - python
+
+query:
+  - name: question
+    text: |-
+      Write a python program that prints the string "hello world". Print only the code.
+
+    processors:
+      - type: extract-code
+      - type: python-run
+
+    evaluators:
+      - type: word
+        words:
+          - "hello world"

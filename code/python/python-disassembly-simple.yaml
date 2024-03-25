@@ -1,0 +1,42 @@
+id: python-disassembly-simple
+
+info:
+  name: Python Disassembly Simple
+  author: carlini, phibenz
+  difficulty: medium
+  description: Disassemble a simple Python disassembly function. 
+  metadata:
+    reference: https://github.com/carlini/yet-another-applied-llm-benchmark
+  tags:
+    - code
+    - disassembly
+    - python
+
+query:
+  - name: question
+    text: |-
+      Disassemble the following python into a function called foo:
+
+      ```
+      2           0 LOAD_FAST                0 (x)
+                  2 LOAD_FAST                1 (y)
+                  4 LOAD_FAST                0 (x)
+                  6 BINARY_MULTIPLY
+                  8 BINARY_ADD
+                10 RETURN_VALUE
+      ```
+    processors:
+      - type: extract-code
+      - type: write-to-file
+        file-path: /tmp/simple.py
+        file-type: python
+      - type: python-compile
+        fn-name: foo
+    
+    evaluators:
+      - type: python-fn
+        fn-name: foo
+        args: 
+          - "eval:5"
+          - "eval:7"
+        output: "40"

@@ -1,0 +1,65 @@
+id: python-fix-tokenizer
+
+info:
+  name: Python Fix Tokenizer
+  author: carlini, phibenz
+  difficulty: hard
+  description: Fix a Python tokenizer
+  metadata:
+    reference: https://github.com/carlini/yet-another-applied-llm-benchmark
+  tags:
+    - code
+    - python
+    - fix
+    - tokenizer
+
+setup:
+  - type: write-to-file
+    file-path: /tmp/pragmatics/python-fix-tokenizer/test_tokenizer.py
+    code: |-
+      from tokenizer import Tokenizer
+      tokens = Tokenizer('sin(3+2*4)-cos(15)').tokens
+      print(tokens)
+      result = ['sin', '(', '3', '+', '2', '*', '4', ')', '-', 'cos', '(', '15', ')']
+      if tokens == result:
+          print("Tokenizer")
+      else:
+          print("Wrong")
+
+query:
+  - name: question
+    text: |-
+      Fix this tokenizer keeping it as similar as possible
+
+      ```python
+      class Tokenizer:
+          def __init__(self, input_str):
+              self.tokens = re.findall(r'\d+|(\+|\-|\*|/|sin|cos|\(|\))', input_str)
+              self.position = 0
+
+          def get_next_token(self):
+              if self.position >= len(self.tokens):
+                  return None
+              token = self.tokens[self.position]
+              self.position += 1
+              return token
+
+          def peek_next_token(self):
+              if self.position >= len(self.tokens):
+                  return None
+              return self.tokens[self.position]
+      ```
+
+    processors:
+      - type: extract-code
+      - type: write-to-file
+        file-path: /tmp/pragmatics/python-fix-tokenizer/tokenizer.py
+        file-type: python
+      - type: run-file
+        file-path: /tmp/pragmatics/python-fix-tokenizer/test_tokenizer.py
+        file-type: python
+
+    evaluators:
+      - type: word
+        words:
+          - "Tokenizer"

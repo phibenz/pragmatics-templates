@@ -1,0 +1,35 @@
+id: c-weird-expression
+
+info:
+  name: Weird Expression in C
+  author: carlini, phibenz
+  difficulty: hard
+  description: Correctly evaluate a complex C expression.
+  metadata:
+    reference: https://github.com/carlini/yet-another-applied-llm-benchmark
+  tags:
+    - explain
+    - c
+
+query:
+  - name: question
+    text: |-
+      What does the c expression `-~++*x--` evaluate to in simplest form? Ignore side effects.
+  
+    processors:
+      - type: llm
+        model: gpt-3.5-turbo-0125
+        query: |- 
+          Below is a student's answer to a question about what a particular C expression evaluates to:
+          {{ANSWER}}
+          
+          Does the student's final answer say that the expression evaluates to *x+2?
+          Ignore their reasoning. Just look at the final answer, if they say **EXPLICITLY** that the answer is *x+2. 
+          Giving something that's equal but more complicated is wrong. 
+
+          If the answer is correct say "The student passes" otherwise "The student fails".
+    
+    evaluators:
+      - type: word
+        words:
+          - "student passes"

@@ -1,0 +1,31 @@
+id: aws-ipv6
+
+info:
+  name: AWS IPv6
+  author: carlini, phibenz
+  difficulty: easy
+  description: Udentify the error in an AWS Lambda code for authorizing a new network.
+  metadata:
+    reference: https://github.com/carlini/yet-another-applied-llm-benchmark
+  tags: 
+    - explain
+    - aws
+
+query:
+  - name: question
+    text: |-
+      This a code for aws lambda to authorize a new network, what is wrong with this :
+      security_group.authorize_egress(
+            IpPermissions=[
+                {'IpProtocol': '-1',
+                 'IpRanges': [{'CidrIpv6': '::/0'}]}
+            ]
+        )
+    
+    evaluators:
+      - type: word
+        words:
+          - "Ipv6Ranges"
+          - "IpRanges"
+          - "IPv6 CIDR"
+        condition: "or"

@@ -1,0 +1,49 @@
+id: bash-find-dont-contain
+
+info:
+  name: Bash Find Don't Contain
+  author: carlini, phibenz
+  difficulty: medium
+  description: Implement a simple bash 1-liner searching for files that don't contain some text.
+  metadata:
+    reference: https://github.com/carlini/yet-another-applied-llm-benchmark
+  tags:
+    - code
+    - bash
+
+setup:
+  - type: python-run
+    code: |-
+      import os
+      base_dir = "/tmp/pragmatics/bash-find-dont-contain"
+      os.makedirs(base_dir, exist_ok=True)
+      open(base_dir + "/hello", "w").write("this is a test")
+      open(base_dir + "/there", "w").write("test this ASDF")
+      open(base_dir + "/this", "w").write("whatever thing")
+      open(base_dir + "/asdf", "w").write("zzzthing")
+      open(base_dir + "/lower", "w").write("test this asdf")
+
+query:
+  - name: question
+    text: |-
+        In bash list all files in /tmp/pragmatics/bash-find-dont-contain that don't contain asdf in the contents (case-ignore)
+
+    processors:
+      - type: extract-code
+      - type: bash-run
+    
+    evaluators:
+      - type: word
+        words:
+          - "hello"
+          - "this"
+          - "asdf"
+        condition: "and"
+
+      - type: word
+        words:
+          - "there"
+          - "lower"
+        condition: "nand"
+  
+query-evaluators-condition: "and"

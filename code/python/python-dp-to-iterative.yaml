@@ -1,0 +1,59 @@
+id: python-dp-to-iterative
+
+info:
+  name: Python Dynamic Programming to Iterative
+  author: carlini, phibenz
+  difficulty: hard
+  description: Convert a dynamic programming solution to an iterative solution.
+  metadata:
+    reference: https://github.com/carlini/yet-another-applied-llm-benchmark
+  tags:
+    - code
+    - python
+    - dynamic programming
+
+query:
+  - name: question
+    text: |-
+      Explain what this code does. Then, convert this recursive function to an iterative one, making explicit the cubic work that's being done. 
+      The functions should return exactly the same output but the iterative one should be faster. 
+      Call your function `solve_iterative` and match the type signature of the original function.
+
+      ```python
+      from functools import lru_cache
+
+      @lru_cache(maxsize=None)
+      def solve_dp(graph, lines_left, distance_since_last):
+          if len(graph) < lines_left:
+              return 1e9, []
+          if lines_left == 0 and len(graph) == 0:
+              return 0, []
+
+          # option 1: don't take the line
+          value = (1e9, [])
+          if distance_since_last < 10:
+              value = min(value, solve_dp(graph[1:], lines_left, distance_since_last + 1))
+
+          # option 2: take the line
+          if lines_left > 0:
+              sub, how = solve_dp(graph[1:], lines_left - 1, 0)
+              sub += graph[0] + (distance_since_last - 8) ** 2
+              value = min(value, (sub, how + [len(graph)]))
+
+          return value
+      ```
+
+    processors:
+      - type: extract-code
+      - type: python-compile
+        fn-name: solve_iterative
+
+    evaluators:
+      - type: python-fn
+        fn-name: solve_iterative
+        args: 
+          - "eval:(97, 93, 96, 64, 46, 28, 82, 52, 21, 23, 39, 62, 81, 32, 4, 16, 66, 56, 72, 37, 51, 14, 41, 0, 59, 70, 90, 50, 99, 76, 65, 20, 22, 34, 36, 12, 31, 9, 44, 73, 45, 94, 57, 85, 89, 91, 6, 40, 11, 74, 75, 17, 25, 5, 87, 79, 88, 15, 55, 53, 61, 86, 54, 18, 29, 68, 8, 48, 83, 69, 84, 77, 47, 80, 92, 24, 19, 58, 26, 7, 43, 67, 78, 42, 2, 63, 71, 3, 60, 1, 49, 10, 27, 95, 13, 33, 30, 98, 38, 35)"
+          - "eval:12"
+          - "eval:4"
+        output: "(172, [6, 16, 24, 34, 43, 47, 54, 63, 69, 77, 86, 95])"
+

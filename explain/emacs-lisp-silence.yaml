@@ -1,0 +1,22 @@
+id: emacs-lisp-silence
+
+info:
+  name: Emacs-list Silence Process Finished
+  author: carlini, phibenz
+  difficulty: easy
+  description: How to silence "Process python-process finished?
+  metadata:
+    reference: https://github.com/carlini/yet-another-applied-llm-benchmark
+  tags:
+    - explain
+    - emacs-lisp
+
+query:
+  - name: question
+    text: |-
+      In emacs lisp how do I silence "Process python-process finished?
+    
+    evaluators:
+      - type: word
+        words:
+          - "set-process-sentinel"

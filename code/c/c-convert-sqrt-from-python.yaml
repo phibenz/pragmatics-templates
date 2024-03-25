@@ -1,0 +1,68 @@
+id: c-convert-sqrt-from-python
+
+info:
+  name: Convert sqrt from Python
+  author: phibenz, carlini
+  difficulty: medium
+  description: Rewrite a given Python program into an equivalent C program.
+  metadata:
+    reference: https://github.com/carlini/yet-another-applied-llm-benchmark
+  tags:
+    - code
+    - c
+    - python
+
+setup:
+  - type: python-run
+    code: |-
+      import os
+      base_dir = "/tmp/pragmatics/c-convert-sqrt-from-python"
+      os.makedirs(base_dir, exist_ok=True)
+
+      code = """
+      #include <stdio.h>
+      #include <stdlib.h>
+      #include "my_sqrt.c"
+
+      int main() {
+        float result = my_sqrt(12345, 0.0001);
+        int result_int = (int)(result * 10);
+        printf("%d", result_int);
+        return 0;
+      }
+      """
+      with open(f"{base_dir}/main.c", "w") as f:
+        f.write(code)
+
+query:
+  - name: question
+    text: |-
+      Here's a python program. 
+      Please rewrite it in C with the type signature float my_sqrt(float, float).
+
+      ```python
+      def my_sqrt(number, precision=0.0001):
+          guess = number / 2  # Start with an initial guess
+          
+          while abs(guess * guess - number) >= precision:
+              guess = (guess + number / guess) / 2  # Improve the guess using the Babylonian method
+          
+          return guess
+      ```
+
+    processors:
+      - type: extract-code
+      - type: write-to-file
+        file-path: /tmp/pragmatics/c-convert-sqrt-from-python/my_sqrt.c
+        file-type: c
+        option: replace-main
+      - type: compile
+        compiler: gcc
+        compile-path: /tmp/pragmatics/c-convert-sqrt-from-python/main.c
+        compile-output: "/tmp/pragmatics/c-convert-sqrt-from-python/my_sqrt"
+
+    evaluators:
+    - type: run-file
+      file-path: /tmp/pragmatics/c-convert-sqrt-from-python/my_sqrt
+      file-type: c
+      output: "1111"

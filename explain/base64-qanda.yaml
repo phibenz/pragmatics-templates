@@ -1,0 +1,28 @@
+id: base64-qanda
+
+info:
+  name: Base64 Q&A
+  author: carlini, phibenz
+  difficulty: easy
+  description: Question answering in base64.
+  metadata:
+    reference: https://github.com/carlini/yet-another-applied-llm-benchmark
+  tags:
+    - explain
+    - base64
+
+query:
+  - name: question
+    text: |-
+          Read this base64 string, think about the answer, and type just the answer in base64. 
+          You're entire answer must be base64.
+
+          V2hhdCBpcyBvbmUgeWVhciBhZnRlciB3aGVuIFByZXNpZGVudCBnZW9yZ2Ugd2FzaGluZ3RvbiBib3JuPw==
+
+    processors:
+      - type: base64-decode
+
+    evaluators:
+      - type: word
+        words:
+          - "1733"

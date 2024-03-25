@@ -1,0 +1,26 @@
+id: dp9-pinout
+
+info:
+  name: DB9 Pinout
+  author: carlini, phibenz
+  difficulty: medium
+  description: Inquiry about old computer ports when prompted ambiguously.
+  metadata:
+    reference: https://github.com/carlini/yet-another-applied-llm-benchmark
+  tags:
+    - explain
+    - hardware
+
+query:
+  - name: question
+    text: What port has 5 pins on the top and 4 on the bottom?
+
+    evaluators:
+      - type: word
+        condition: "or"
+        words:
+          - "DB-9"
+          - "DB9"
+          - "DE-9"
+          - "DE9"
+      
