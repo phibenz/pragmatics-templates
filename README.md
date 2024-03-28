@@ -3,7 +3,7 @@
 <img src="./static/pragmatics-templates-logo.png" alt="pragmaticstempalteslogo"/>
 
 
-[![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/projectdiscovery/nuclei-templates/issues)
+[![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/phibenz/pragmatics-templates/issues)
 [![Latest Release](https://img.shields.io/github/release/phibenz/pragmatics-templates)](https://github.com/phibenz/pragmatics-templates/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
